@@ -1,0 +1,8 @@
+Join_tree
+src/__pycache__
+# test_v2.ipynb
+test.ipynb
+main.ipynb
+.vscode/settings.json
+__pycache__/reeb.cpython-38.pyc
+__pycache__/test_matrices.cpython-38.pyc
