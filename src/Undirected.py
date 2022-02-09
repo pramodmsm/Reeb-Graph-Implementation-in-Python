@@ -42,29 +42,27 @@ class Undirectedgraph:
     
 
 	def check_for_parents(self,node,processed_nodes,parent):
-		flag_no_neigbhour = False
+		flag_no_neigbhour = True
 		if len(processed_nodes)!=0:
 			for idx,subset in enumerate(processed_nodes):
-				# print(f'subset is {subset}, node is {node}')
+				# print(f'\nsubset {subset} from processed nodes {processed_nodes}, node is {node}')
 				# print(f'is node {node} a neighbour of subset{subset}{self.is_neighbour(subset,node)}')
 				if self.is_neighbour(subset,node):
 					self.union(parent,subset[-1],node)
 					# print(f'appending node {node} to processed_nodes {processed_nodes}')
 					processed_nodes[idx].append(node)
-				else:
-					flag_no_neigbhour = True
+					flag_no_neigbhour = False
 
 			if flag_no_neigbhour:
 				processed_nodes.append([node])
-					
-					
-			# merge those sets where node is present
-			for i in range(len(processed_nodes)-1):
-				# print(i,processed_nodes)
-				if i<len(processed_nodes)-1 and node in processed_nodes[i] and node in processed_nodes[i+1]:
-					processed_nodes[i].extend(processed_nodes[i+1])
-					processed_nodes.remove(processed_nodes[i+1])
-					processed_nodes[i].remove(node)
+			else:
+				# merge those sets where node is present
+				for i in range(len(processed_nodes)-1):
+					# print(i,processed_nodes)
+					if i<len(processed_nodes)-1 and node in processed_nodes[i] and node in processed_nodes[i+1]:
+						processed_nodes[i].extend(processed_nodes[i+1])
+						processed_nodes.remove(processed_nodes[i+1])
+						processed_nodes[i].remove(node)
 		else:
 			processed_nodes.append([node])
 		return processed_nodes,parent
