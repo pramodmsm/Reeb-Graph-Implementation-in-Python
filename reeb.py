@@ -1,3 +1,4 @@
+from prompt_toolkit import prompt
 from src.Undirected import Undirectedgraph
 
 import numpy as np
@@ -19,24 +20,26 @@ def get_reeb(m):
     return parent
     
 if __name__ == "__main__":
-    input_matrix = np.array([
-    [1, 6, 3],
-    [2, 7, 4],
-    [5, 8, 9]
+    input_matrix =  np.array([
+                        [1, 6, 3],
+                        [2, 7, 4],
+                        [5, 8, 9]
                             ])
     input_matrix =  np.array([
-    [1,7,12,13],
-    [9,2,6,5 ],
-    [14,8,11,10],
-    [15,16,4,3]
+                        [1,7,12,13],
+                        [9,2,6,5 ],
+                        [14,8,11,10],
+                        [15,16,4,3]
                             ])
-    input_matrix = np.random.choice(np.arange(1,17),size=(4,4),replace=False)
-    parent = get_reeb(input_matrix)
+    unit_size = int(input("enter matrix size as integer"))
+    scalar_field = np.random.choice(np.arange(1,np.square(unit_size)+1),size=(unit_size,unit_size),replace=False)
+    print(f'input scalar field is\n\n {scalar_field}')
+    
+    parent = get_reeb(scalar_field)
     G = nx.Graph()
     for idx,node in enumerate(parent):
         if idx>0:
             G.add_edge(idx,node)
     
-    plt.plot()
     nx.draw_networkx(G, font_weight='bold')
     plt.show()
