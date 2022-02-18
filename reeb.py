@@ -34,3 +34,4 @@ if __name__ == "__main__":
     plt.subplot(122)
     nx.draw_networkx(Gs, font_weight='bold')
     plt.show()
+    
