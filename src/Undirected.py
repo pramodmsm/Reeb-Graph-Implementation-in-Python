@@ -1,18 +1,37 @@
 from collections import defaultdict
+from tabnanny import verbose
 import numpy as np
 from pipe import where,select,traverse,dedup
-
 #This class represents a undirected graph using adjacency processed_nodes representation
+
+class Utils(object):
+	verbose: bool = True
+	r"""A global boolean property to specify if the wrapper must print contents or
+	not."""
+
+	@staticmethod
+	def print(*args, **kwargs):
+
+		if 'flush' not in kwargs:
+			kwargs['flush'] = True
+
+		if kwargs.get('verbose', Utils.verbose):
+			# del kwargs['verbose']
+			print(*args, **kwargs)
+
 class Undirectedgraph:
 
-	def __init__(self,m):
+	def __init__(self,m,tree_type='merge'):
 		self.graph = defaultdict(list) # default dictionary to store graph
 		self.m = m
+		self.tree_type = tree_type
 		self.m_flat = self.m.flatten()
 		self.m_flat.sort()
-
+		if self.tree_type == 'split':
+			self.m_flat = np.flip(self.m_flat)
+		Utils.print(self.m_flat)
 	def __repr__(self) -> str:
-		print(self.graph)
+		Utils.print(self.graph)
 	
 	# function to add an edge to graph
 	def addEdge(self,u,v):
@@ -47,7 +66,7 @@ class Undirectedgraph:
     
 	def merge_sets(self,sets,node):
 		con_com = {node:[],-1:[]}
-		# print(f'before merging processed_nodes{sets}')
+		# Utils.print(f'before merging processed_nodes{sets}')
 		for subset in sets:
 			if node in subset:
 				con_com[node].append(subset)
@@ -59,18 +78,21 @@ class Undirectedgraph:
 		if len(con_com[-1])!= 0:
 			for i in con_com[-1]: sets.append(i)
 		con_com.clear()
-		# print(f'post merging processed_nodes{sets}')
+		Utils.print(f'post merging processed_nodes{sets}')
 		return sets
 
-	def check_for_parents(self,node,processed_nodes):
+	def build_tree(self,node,processed_nodes):
 		flag_no_neigbhour = True
 		if len(processed_nodes)!=0:
 			for idx,subset in enumerate(processed_nodes):
-				# print(f'\nsubset {subset} from processed nodes {processed_nodes}, node is {node}')
-				# print(f'is node {node} a neighbour of subset{subset}{self.is_neighbour(subset,node)}')
+				Utils.print(f'\nsubset {subset} from processed nodes {processed_nodes}, node is {node}')
+				Utils.print(f'is node {node} a neighbour of subset{subset}{self.is_neighbour(subset,node)}')
 				if self.is_neighbour(subset,node):
-					self.addEdge(np.max(subset),node)
-					# print(f'appending node {node} to processed_nodes {processed_nodes}')
+					if self.tree_type == 'merge':
+						self.addEdge(np.max(subset),node)
+					else:
+						self.addEdge(np.min(subset),node)
+					Utils.print(f'appending node {node} to processed_nodes {processed_nodes}')
 					processed_nodes[idx].append(node)
 					flag_no_neigbhour = False
 
