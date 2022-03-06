@@ -6,7 +6,7 @@ import reeb
 
 class testing(unittest.TestCase):
      
-      
+    
     def get_data(self,random=False,size=(3,3)):
         if not random and size==(3,3):
             return np.array(  [   

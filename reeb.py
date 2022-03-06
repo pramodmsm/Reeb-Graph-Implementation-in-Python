@@ -20,11 +20,13 @@ if __name__ == "__main__":
     Utils.verbose = True
     unit_size = int(input('enter unit size as integer :'))
     # tree_type = str(input("enter type of tree 'merge/split' :"))
-    scalar_field = np.random.choice(np.arange(1,np.square(unit_size)+1),size=(unit_size,unit_size),replace=False)
+    scalar_field = np.random.choice(np.arange(1,np.square(unit_size)+3),size=(unit_size,unit_size),replace=False)
     Utils.print(f'input scalar field is\n\n {scalar_field}')
     
     _,merge_tree = get_reeb(scalar_field,tree_type='merge')
     _,split_tree = get_reeb(scalar_field,tree_type='split')
+
+    
     Gm = nx.Graph(merge_tree.graph)
     Gs = nx.Graph(split_tree.graph)
     Utils.print([merge_tree.graph])
@@ -34,4 +36,3 @@ if __name__ == "__main__":
     plt.subplot(122)
     nx.draw_networkx(Gs, font_weight='bold')
     plt.show()
-    

@@ -30,13 +30,25 @@ class Undirectedgraph:
 		if self.tree_type == 'split':
 			self.m_flat = np.flip(self.m_flat)
 		Utils.print(self.m_flat)
-	def __repr__(self) -> str:
-		Utils.print(self.graph)
+	
+	def __repr__(self) -> dict:
+		return self.graph
 	
 	# function to add an edge to graph
 	def addEdge(self,u,v):
 		self.graph[u].append(v)
+		self.graph[v].append(u)
 
+	# function to check an edge in graph given nodes (u,v)
+	def isEdge(self,u,v):
+		if u<v and v in self.graph[u] :
+			return True
+		return False
+
+	# get adjacent neighbours of a node in tree 
+	def get_neighbours(self,node):
+		return self.graph[node]
+	
 	# A utility function to find the root parent of an element i
 	def find_parent(self, parent,i):
 		if parent[i] == -1:
