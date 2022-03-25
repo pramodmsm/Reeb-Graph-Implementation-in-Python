@@ -6,3 +6,6 @@ main.ipynb
 .vscode/settings.json
 __pycache__/reeb.cpython-38.pyc
 __pycache__/test_matrices.cpython-38.pyc
+env-01
+__pycache__/reeb.cpython-310.pyc
+__pycache__/test_matrices.cpython-310.pyc

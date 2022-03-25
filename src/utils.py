@@ -36,6 +36,9 @@ class Stack(object):
     
     def __len__(self):
         return len(self.stack)
+    
+    def __repr__(self):
+        return self.stack
 
     def push(self,a : object):
         assert a is not None
